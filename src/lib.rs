@@ -25,6 +25,9 @@ const SIDF: [SIDConfig; 2] = [SIDF1, SIDF2];
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const XIDF: [XIDConfig; 1] = [XIDF1];
 
+#[cfg(feature="raspberrypi")]
+use cands_interface::GPIO_INPUT_PIN_NUM;
+
 
 pub struct CANInterface {
     pub middleware: CyphalMiddleware<MTU_CAN_FD>,
