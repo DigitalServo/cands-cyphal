@@ -3,7 +3,7 @@ name = "cands_cyphal"
 license = "MIT"
 authors = ["DigitalServo"]
 description = "This is a packaged library for DigitalServo USB CAN board using Cyphal communication."
-version = "0.1.16"
+version = "0.1.17"
 edition = "2021"
 
 [features]
@@ -15,6 +15,6 @@ drvcan_v2 = []
 [dependencies]
 async-io = "2.4.0"
 cands_interface = { version = "0.1.11"}
-cands_presentation = "0.1.2"
+cands_presentation = "0.1.3"
 cands_transport = "0.1.1"
 futures-lite = "2.5.0"
