@@ -20,12 +20,14 @@ impl crate::CANInterface {
         self.send_message(SUBJECT_ID, &payload)
     }
 
+    #[deprecated]
     pub fn send_digitalservo_response<T: Clone + IntoDigitalServoDataType + Into<DigitalServoPrimitiveData>>(&mut self, channel: u8, key: &str, value: &[T]) -> Result<(), Box<dyn std::error::Error>> {
         const SERVICE_ID: u16 = 0x80;
         let payload:Vec<u8> = Dict::serialize(key, &value);
         self.send_response(SERVICE_ID, channel, &payload)
     }
 
+    #[deprecated]
     pub fn send_digitalservo_request(&mut self, channel: u8, key: &str) -> Result<(), Box<dyn std::error::Error>> {
         const SERVICE_ID: u16 = 0x80;
         let payload:Vec<u8> = Dict::serialize(key, &[0.0]);

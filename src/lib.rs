@@ -28,7 +28,9 @@ const XIDF: [XIDConfig; 1] = [XIDF1];
 #[cfg(feature="raspberrypi")]
 use cands_interface::GPIO_INPUT_PIN_NUM;
 
+#[cfg(all(any(feature="usb-ftdi", feature="raspberrypi"), feature="drvcan_v2"))]
 const DEFAULT_TIMEOUT: std::time::Duration = std::time::Duration::from_millis(50);
+#[cfg(all(any(feature="usb-ftdi", feature="raspberrypi"), feature="drvcan_v2"))]
 const DEFAULT_RETRY_COUNT: u32 = 20;
 
 
