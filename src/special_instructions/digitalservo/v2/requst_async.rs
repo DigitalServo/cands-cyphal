@@ -17,14 +17,14 @@ impl crate::CANInterface {
         channel: u8,
         key: &str,
         value: &[T],
-        timeout: std::time::Duration,
-        retry_count: u32,
     ) -> Result<(), Box<dyn std::error::Error>>
         where T: Clone + IntoDigitalServoDataType + Into<DigitalServoPrimitiveData>
     {
         const SERVICE_ID: u16 = 0x81;
 
-        for _ in 0..retry_count {
+        let timeout = self.timeout;
+
+        for _ in 0..self.retry_count {
             let ret: Result<Result<(), Box<dyn std::error::Error>>, Elapsed> = {
                 
                 let task = async {
@@ -67,16 +67,18 @@ impl crate::CANInterface {
         &mut self,
         channel: u8,
         key: &str,
-        timeout: std::time::Duration,
-        retry_count: u32,
     ) -> Result<Vec<CyphalRxData<Dict>>, Box<dyn std::error::Error>> {
+        
         const SERVICE_ID: u16 = 0x82;
+        let payload:Vec<u8> = Str::serialize(key);
 
-        for _ in 0..retry_count {
+        let timeout = self.timeout;
+
+        for _ in 0..self.retry_count {
             let ret: Result<Result<Vec<CyphalRxData<Dict>>, Box<dyn std::error::Error>>, Elapsed> = {
 
                 let task = async {
-                    let payload:Vec<u8> = Str::serialize(key);
+                    
                     self.send_request(SERVICE_ID, channel, &payload)?;
 
                     loop {

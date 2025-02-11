@@ -28,12 +28,19 @@ const XIDF: [XIDConfig; 1] = [XIDF1];
 #[cfg(feature="raspberrypi")]
 use cands_interface::GPIO_INPUT_PIN_NUM;
 
+const DEFAULT_TIMEOUT: std::time::Duration = std::time::Duration::from_millis(50);
+const DEFAULT_RETRY_COUNT: u32 = 20;
+
 
 pub struct CANInterface {
     pub middleware: CyphalMiddleware<MTU_CAN_FD>,
     pub driver: TCAN455xTranceiver,
     pub rx_complete_fifo: Vec<CyphalRxFrame>,
-    pub rx_incomplete_fifo: Vec<CyphalRxFrame>
+    pub rx_incomplete_fifo: Vec<CyphalRxFrame>,
+    #[cfg(feature="drvcan_v2")]
+    pub timeout: std::time::Duration,
+    #[cfg(feature="drvcan_v2")]
+    pub retry_count: u32,
 }
 
 
@@ -47,7 +54,11 @@ impl CANInterface {
             middleware,
             driver,
             rx_complete_fifo: vec![],
-            rx_incomplete_fifo: vec![]
+            rx_incomplete_fifo: vec![],
+            #[cfg(feature="drvcan_v2")]
+            timeout: DEFAULT_TIMEOUT,
+            #[cfg(feature="drvcan_v2")]
+            retry_count: DEFAULT_RETRY_COUNT,
         };
         interface.init()?;
         
@@ -68,6 +79,16 @@ impl CANInterface {
         self.middleware.transfer_id = id_init;
       
         Ok(())
+    }
+
+    #[cfg(all(any(feature="usb-ftdi", feature="raspberrypi"), feature="drvcan_v2"))]
+    pub fn set_timeout(&mut self, timeout: std::time::Duration) {
+        self.timeout = timeout;
+    }
+
+    #[cfg(all(any(feature="usb-ftdi", feature="raspberrypi"), feature="drvcan_v2"))]
+    pub fn set_retry_count(&mut self, retry_count: u32) {
+        self.retry_count = retry_count;
     }
 
     #[cfg(feature="raspberrypi")]
