@@ -8,7 +8,7 @@ use crate::CANInterface;
 type IoResult<T> = Result<T, std::io::Error>;
 
 pub struct AsyncCANInterface {
-    interface: Arc<Mutex<CANInterface>>,
+    pub interface: Arc<Mutex<CANInterface>>,
     timeout: std::time::Duration,
     retry_count: usize, 
 }
@@ -38,7 +38,10 @@ impl AsyncCANInterface {
     where F: FnOnce(&mut CANInterface) -> Result<T, Box<dyn std::error::Error>>
     {
         let mut interface = self.interface.lock().await;
-        f(&mut interface)
+        let ret = f(&mut interface);
+        drop(interface);
+
+        ret
     }
 
     pub async fn send_digitalservo_set_value<T> (

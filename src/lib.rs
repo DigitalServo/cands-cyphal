@@ -10,10 +10,19 @@ const MTU_CAN_FD: usize = 64;
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const NODE_ID: u8 = 127;
 
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const SIDF1: SIDConfig = SIDConfig { sft: 3, sfec: 0, sidf1: 0x123, sidf2: 0x456 };
+
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const SIDF2: SIDConfig = SIDConfig { sft: 3, sfec: 5, sidf1: 0x123, sidf2: 0x456 };
+
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const XIDF1: XIDConfig = XIDConfig { eft: 0, efec: 0, eidf1: 0x55555, eidf2: 0x77777 };
+
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const SIDF: [SIDConfig; 2] = [SIDF1, SIDF2];
+
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const XIDF: [XIDConfig; 1] = [XIDF1];
 
 #[cfg(feature="raspberrypi")]
