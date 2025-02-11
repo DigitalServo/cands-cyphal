@@ -4,7 +4,6 @@ use std::{thread, time};
 
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 impl crate::CANInterface {
-
     pub fn drive_enable(&mut self, channel: u8) -> Result<(), Box<dyn std::error::Error>> {
 
         self.send_digitalservo_response(channel, "cmdval", &[0.0])?;
