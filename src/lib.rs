@@ -7,6 +7,7 @@ pub use special_instructions::digitalservo;
 
 const MTU_CAN_FD: usize = 64;
 
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 const NODE_ID: u8 = 127;
 
 const SIDF1: SIDConfig = SIDConfig { sft: 3, sfec: 0, sidf1: 0x123, sidf2: 0x456 };
@@ -28,7 +29,7 @@ pub struct CANInterface {
 
 
 impl CANInterface {
-
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
         let middleware: CyphalMiddleware<MTU_CAN_FD> = CyphalMiddleware::<MTU_CAN_FD>::new(NODE_ID);
         let driver: TCAN455xTranceiver = TCAN455xTranceiver::new()?;
@@ -44,6 +45,7 @@ impl CANInterface {
         Ok(interface)
     }
 
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn init(&mut self) -> Result<(), Box<dyn std::error::Error>> {
  
         self.driver.setup(&SIDF, &XIDF)?;
@@ -69,11 +71,14 @@ impl CANInterface {
         self.driver.gpi_read_all()
     }
 
+
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn reset_rx_fifo(&mut self) {
         self.rx_complete_fifo.clear();
         self.rx_incomplete_fifo.clear();
     }
 
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn send_message(&mut self, subject_id: u16, payload: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
         match self.middleware.create_message_data(subject_id, &payload, payload.len()) {
             Ok(packets) => {
@@ -86,6 +91,7 @@ impl CANInterface {
         Ok(())
     }
 
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn send_response(&mut self, service_id: u16, channel: u8, payload: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
         match self.middleware.create_response_data(channel, service_id, &payload, payload.len()) {
             Ok(packets) => {
@@ -98,6 +104,7 @@ impl CANInterface {
         Ok(())
     }
 
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn send_request(&mut self, service_id: u16, channel: u8, payload: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
         match self.middleware.create_request_data(channel, service_id, &payload, payload.len()) {
             Ok(packets) => {
@@ -111,6 +118,7 @@ impl CANInterface {
     }
 
     /// Read received data from a FIFO buffer on a device.
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn read_device_fifo(&mut self) -> std::io::Result<Option<RxData>>{
         match self.driver.receive() {
             Ok(rx_data) => Ok(rx_data),
@@ -119,6 +127,7 @@ impl CANInterface {
     }
 
     /// Load cyphal frames from a FIFO buffer on a user space.
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn load_frames_from_buffer(&mut self, buffer: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
         match self.middleware.try_read(buffer) {
             Ok(packets) => {
@@ -182,6 +191,7 @@ impl CANInterface {
 
     /// Load cyphal frames from a FIFO buffer on a device.
     /// It wraps "read_device_fifo" and "load_frames_from_buffer"
+    #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
     pub fn load_frames(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let rx_data: Option<RxData> = self.read_device_fifo()?;
 
