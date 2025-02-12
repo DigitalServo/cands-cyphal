@@ -92,5 +92,27 @@ impl crate::CANInterface {
         }
     }
 
+    pub fn get_scalar_response_from_buffer<T: TryFrom<DigitalServoPrimitiveData>>(&mut self, channel: u8, key: &str) -> Result<Option<T>, Box<dyn std::error::Error>> {
+        let data = match self.get_key_value(Some(key), Some(channel))? {
+            Some(data) => data,
+            None => return Ok(None)
+        };
+
+        let last_data = match data.last() {
+            Some(data) => data.data.clone().value,
+            None => return Ok(None)
+        };
+
+        let scalar = match last_data.get(0) {
+            Some(data) => data.clone(),
+            None => return Ok(None)
+        };
+
+        match T::try_from(scalar) {
+            Ok(data) => Ok(Some(data)),
+            Err(_) => Err("Type Not Mismatch".into()) 
+        }
+
+    }
 
 }

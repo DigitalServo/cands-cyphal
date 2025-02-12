@@ -93,6 +93,12 @@ impl CANInterface {
         self.retry_count = retry_count;
     }
 
+    #[cfg(all(any(feature="usb-ftdi", feature="raspberrypi"), feature="drvcan_v2"))]
+    pub fn reset_settings(&mut self) {
+        self.timeout = DEFAULT_TIMEOUT;
+        self.retry_count = DEFAULT_RETRY_COUNT;
+    }
+
     #[cfg(feature="raspberrypi")]
     pub fn gpi_read(&mut self, channel: usize) -> bool {
         self.driver.gpi_read(channel)
