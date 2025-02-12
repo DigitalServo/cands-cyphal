@@ -1,8 +1,7 @@
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 use cands_presentation::cyphal::digitalservo::{
-    dictionary::Dict,
+    dictionary::{Dict, DigitalServoPrimitiveData, IntoDigitalServoDataType},
     string::Str,
-    traits::{DigitalServoPrimitiveData, IntoDigitalServoDataType}
 };
 use cands_transport::cyphal::CyphalRxData;
 use tokio::time::error::Elapsed;
@@ -18,7 +17,8 @@ impl crate::CANInterface {
         key: &str,
         value: &[T],
     ) -> Result<(), Box<dyn std::error::Error>>
-        where T: Clone + IntoDigitalServoDataType + Into<DigitalServoPrimitiveData>
+    where
+        T: Clone + IntoDigitalServoDataType + Into<DigitalServoPrimitiveData>
     {
         const SERVICE_ID: u16 = 0x81;
 

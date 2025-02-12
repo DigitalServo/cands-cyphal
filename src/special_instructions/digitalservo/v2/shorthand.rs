@@ -3,7 +3,7 @@
 use std::{thread, time};
 
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
-use cands_presentation::cyphal::digitalservo::traits::DigitalServoPrimitiveData;
+use cands_presentation::cyphal::digitalservo::dictionary::DigitalServoPrimitiveData;
 
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
 impl crate::CANInterface {
@@ -88,7 +88,7 @@ impl crate::CANInterface {
 
         match T::try_from(data.clone()) {
             Ok(ret) => Ok(Some(ret)),
-            Err(_e) => Err("Type Not Match".into()) 
+            Err(_e) => Err("Type Not Mismatch".into()) 
         }
     }
 
