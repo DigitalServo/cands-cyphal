@@ -53,13 +53,12 @@ impl crate::CANInterface {
         self.send_response(SERVICE_ID, channel, &payload)
     }
 
-    /// [DEPRECATED IN RELIABLE PROCESS]
+    #[deprecated]
+    /// [DEPRECATED]
     /// 
     /// It does not requires a child node replying in a certain time
-    /// (in the worst case, the request would lost when a child node failed to receive a packet due to insufficient processing capacity).
     /// 
-    /// It can be used as non-blocking process.
-    /// Use this only in cyclic operation and get data in after the cycle.
+    /// in the worst case, the request would lost when a child node failed to receive a packet due to insufficient processing capacity.
     /// 
     pub fn send_digitalservo_request(&mut self, channel: u8, key: &str) -> Result<(), Box<dyn std::error::Error>> {
         const SERVICE_ID: u16 = 0x80;
@@ -132,6 +131,21 @@ impl crate::CANInterface {
         let err: std::io::Error = std::io::ErrorKind::TimedOut.into();
         Err(err.into())
 
+    }
+
+
+    /// [DEPRECATED IN RELIABLE PROCESS]
+    /// 
+    /// It does not requires a child node replying in a certain time
+    /// (in the worst case, the request would lost when a child node failed to receive a packet due to insufficient processing capacity).
+    /// 
+    /// It can be used as non-blocking process.
+    /// Use this only in cyclic operation and get data in after the cycle.
+    /// 
+    pub fn send_digitalservo_get_value_request(&mut self, channel: u8, key: &str) -> Result<(), Box<dyn std::error::Error>> {
+        const SERVICE_ID: u16 = 0x82;
+        let payload:Vec<u8> = Str::serialize(key);
+        self.send_request(SERVICE_ID, channel, &payload)
     }
 
     /// It requires a child node replying data when it successfully receive a message.
