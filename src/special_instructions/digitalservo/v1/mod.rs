@@ -1,7 +1,7 @@
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_transport::cyphal::CyphalRxData;
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_presentation::cyphal::digitalservo::{
     dictionary::Dict,
     traits::{DigitalServoPrimitiveData, IntoDigitalServoDataType}
@@ -9,7 +9,7 @@ use cands_presentation::cyphal::digitalservo::{
 
 mod shorthand;
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 impl crate::CANInterface {
 
     pub fn send_digitalservo_message<T: Clone + IntoDigitalServoDataType + Into<DigitalServoPrimitiveData>>(&mut self, key: &str, value: &[T]) -> Result<(), Box<dyn std::error::Error>> {

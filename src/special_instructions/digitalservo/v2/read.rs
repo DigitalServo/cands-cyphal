@@ -1,11 +1,11 @@
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_transport::cyphal::CyphalRxData;
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_presentation::cyphal::digitalservo::dictionary::Dict;
 
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 impl crate::CANInterface {
 
     pub fn clear_rx_complete_fifo(&mut self) {

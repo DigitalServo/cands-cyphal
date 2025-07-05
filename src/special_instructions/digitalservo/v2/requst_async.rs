@@ -1,4 +1,4 @@
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_presentation::cyphal::digitalservo::{
     dictionary::{Dict, DigitalServoPrimitiveData, IntoDigitalServoDataType},
     string::Str,
@@ -8,7 +8,7 @@ use tokio::time::error::Elapsed;
 
 const CHECK_FIFO_POLLING_MS: u64 = 2;
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 impl crate::CANInterface {
 
     pub async fn async_send_digitalservo_set_value<T>(

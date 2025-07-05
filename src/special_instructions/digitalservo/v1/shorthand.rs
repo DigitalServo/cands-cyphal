@@ -1,7 +1,7 @@
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 use std::{thread, time};
 
-#[cfg(any(feature="usb-ftdi", feature="raspberrypi"))]
+#[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 impl crate::CANInterface {
 
     pub fn drive_enable(&mut self, channel: u8) -> Result<(), Box<dyn std::error::Error>> {
