@@ -16,7 +16,7 @@ drvcan_v2 = []
 [dependencies]
 tokio = { version = "1.46.1", features = ["rt", "macros", "rt-multi-thread", "time", "sync"] }
 async-io = "2.4.1"
-cands_interface = { version = "0.1.18"}
+cands_interface = { version = "0.1.19"}
 cands_presentation = "0.1.6"
 cands_transport = "0.1.1"
 futures-lite = "2.6.0"
