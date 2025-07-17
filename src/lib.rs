@@ -25,7 +25,7 @@ const SIDF: [SIDConfig; 2] = [SIDF1, SIDF2];
 #[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
 const XIDF: [XIDConfig; 1] = [XIDF1];
 
-#[cfg(feature="raspberrypi")]
+#[cfg(any(feature="raspberrypi", feature="raspberrypi_cm"))]
 use cands_interface::GPIO_INPUT_PIN_NUM;
 
 #[cfg(all(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"), feature="drvcan_v2"))]
@@ -99,12 +99,12 @@ impl CANInterface {
         self.retry_count = DEFAULT_RETRY_COUNT;
     }
 
-    #[cfg(feature="raspberrypi")]
+    #[cfg(any(feature="raspberrypi", feature="raspberrypi_cm"))]
     pub fn gpi_read(&mut self, channel: usize) -> bool {
         self.driver.gpi_read(channel)
     }
 
-    #[cfg(feature="raspberrypi")]
+    #[cfg(any(feature="raspberrypi", feature="raspberrypi_cm"))]
     pub fn gpi_read_all(&mut self) -> [bool; GPIO_INPUT_PIN_NUM] {
         self.driver.gpi_read_all()
     }
