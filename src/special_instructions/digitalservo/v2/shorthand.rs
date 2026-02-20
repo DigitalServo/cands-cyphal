@@ -12,6 +12,9 @@ impl crate::CANInterface {
         self.send_digitalservo_set_value(channel, "cmdval", &[0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
+        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
+        thread::sleep(time::Duration::from_millis(50));
+
         self.send_digitalservo_set_value(channel, "drive", &[true])?;
         thread::sleep(time::Duration::from_millis(50));
 
@@ -26,6 +29,9 @@ impl crate::CANInterface {
         self.send_digitalservo_set_value(channel, "cmdval", &[0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
+        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
+        thread::sleep(time::Duration::from_millis(50));
+
         Ok(())
     }
 
@@ -35,18 +41,24 @@ impl crate::CANInterface {
         self.send_digitalservo_message("cmdval", &[0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
+        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
+        thread::sleep(time::Duration::from_millis(50));
+
         self.send_digitalservo_message("drive", &[true])?;
         thread::sleep(time::Duration::from_millis(50));
 
         Ok(())
     }
-    
+
     pub fn drive_disable_all(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        
+
         self.send_digitalservo_message("drive", &[false])?;
         thread::sleep(time::Duration::from_millis(50));
 
         self.send_digitalservo_message("cmdval", &[0.0])?;
+        thread::sleep(time::Duration::from_millis(50));
+
+        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
         Ok(())
@@ -88,7 +100,7 @@ impl crate::CANInterface {
 
         match T::try_from(data.clone()) {
             Ok(ret) => Ok(Some(ret)),
-            Err(_e) => Err("Type Not Mismatch".into()) 
+            Err(_e) => Err("Type Not Mismatch".into())
         }
     }
 
@@ -110,7 +122,7 @@ impl crate::CANInterface {
 
         match T::try_from(scalar) {
             Ok(data) => Ok(Some(data)),
-            Err(_) => Err("Type Not Mismatch".into()) 
+            Err(_) => Err("Type Not Mismatch".into())
         }
 
     }

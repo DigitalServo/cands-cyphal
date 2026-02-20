@@ -51,7 +51,7 @@ impl CANInterface {
     pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
         let middleware: CyphalMiddleware<MTU_CAN_FD> = CyphalMiddleware::<MTU_CAN_FD>::new(NODE_ID);
         let driver: TCAN455xTranceiver = TCAN455xTranceiver::new()?;
-        
+
         let mut interface: Self = Self {
             middleware,
             driver,
@@ -63,13 +63,13 @@ impl CANInterface {
             retry_count: DEFAULT_RETRY_COUNT,
         };
         interface.init()?;
-        
+
         Ok(interface)
     }
 
     #[cfg(any(feature="usb-ftdi", feature="raspberrypi", feature="raspberrypi_cm"))]
     pub fn init(&mut self) -> Result<(), Box<dyn std::error::Error>> {
- 
+
         self.driver.setup(&SIDF, &XIDF)?;
         self.reset_rx_fifo();
 
@@ -79,7 +79,7 @@ impl CANInterface {
             .as_millis();
         let id_init: u8 = (now % 32) as u8;
         self.middleware.transfer_id = id_init;
-      
+
         Ok(())
     }
 
@@ -236,7 +236,7 @@ impl CANInterface {
         if let Some(rx_data) = rx_data {
             self.load_frames_from_buffer(&rx_data.fifo1)?
         }
-        
+
         Ok(())
     }
 
