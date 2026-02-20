@@ -41,7 +41,7 @@ impl crate::CANInterface {
         self.send_digitalservo_message("cmdval", &[0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
-        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
+        self.send_digitalservo_message("cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
         self.send_digitalservo_message("drive", &[true])?;
@@ -58,7 +58,7 @@ impl crate::CANInterface {
         self.send_digitalservo_message("cmdval", &[0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
-        self.send_digitalservo_set_value(channel, "cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
+        self.send_digitalservo_message("cmdarray", &[0.0, 0.0, 0.0, 0.0])?;
         thread::sleep(time::Duration::from_millis(50));
 
         Ok(())
